@@ -23,16 +23,21 @@
 
         div#mist { width: 100%; max-width: 640px; display: block; margin: 0 auto;}
 
-        div.title { width: 100%; text-align: center; margin: 20px 0; color: rgba(28,28,28,.8);}
+        div.title { width: 100%; text-align: center; margin: 20px 0; display: block; color: rgba(28,28,28,.8);}
 
-        div.logs { width: 100%; max-height: 400px; overflow-y: auto; margin: 10px 0; display: block; border: 1px solid #333;}
+        div.menu { max-width: 200px; margin: 50px auto 10px auto; display: block; text-align: center;}
+
+        /* div.menu p { max-width: 120px; margin: 15px 0; padding: 5px; text-align: center; display: block; background-color: #f8e71c; color: rgba(28,28,28,.85); cursor: pointer; } */
+
+        div.logs { width: 100%; height: 340px; overflow-y: auto; margin: 10px 0; display: block; border: 1px solid #333;}
         div.logs ul li:first-child { margin-top: 20px;}
         div.logs ul li { margin-top: 5px;}
         div.logs ul li:last-child { margin-bottom: 15px;}
 
         div.controller { width: 100%; margin: 20px 0; display: block; border: 1px solid #333; }
-        div.controller input.typeAct { margin-top: 20px; width: 300px; padding: 5px; font-size: 16px; border-color: rgba(28, 28, 28, 0.2);}
-        div.controller input.subAct { margin-top: 10px; width: 100px; padding: 5px; background-color: #f8e71c; box-shadow: 0; border: 0; color: rgba(28,28,28,.85); font-size: 18px; font-weight: 900; cursor: pointer;}
+        div.controller input.typeAct { margin-top: 20px; width: 300px; }
+        input[type='text'] { margin: 10px auto; padding: 5px; font-size: 16px; border-color: rgba(28, 28, 28, 0.2); }
+        input[type='button'] { margin: 10px auto; width: 100px; padding: 5px; background-color: #f8e71c; box-shadow: 0; border: 0; color: rgba(28,28,28,.85); font-size: 18px; font-weight: 900; cursor: pointer;}
         div.controller input { margin: 10px auto; display: block;}
         div.controller p.actInfo { margin: 20px auto 10px auto; width: 90%; padding: 10px 0px; font-size: 18px; font-weight: 900; text-align: center; border-top: 1px solid #ccc;}
         div.controller ol { margin-bottom: 15px; }
@@ -45,60 +50,68 @@
 
     <div id="mist">
 
-        <div class="title">
-            <h1>阿明侦探所</h1>
-            <p><span>存档码: </span><span>{{ uid }}</span><span>(截图分享游戏时请遮好存档码)</span></p>
+        <!-- title page -->
+        <div class="titlePage" v-show="page == 0">
+
+            <div class="title" style="margin-top: 100px;">
+                <h1>阿明侦探所</h1>
+            </div>
+
+            <div class="menu">
+                <div v-show="loadingWhat == 0">
+                    <input type="button" @click="PostNewGame" value="新游戏">
+                    <input type="button" @click="loadingWhat = 2" value="读取存档">
+                </div>
+                <div v-show="loadingWhat == 1">
+                    <em>载入中......</em>
+                </div>
+                <div v-show="loadingWhat == 2">
+                    <input type="text" v-model="typeUid" placeholder="请输入存档码">
+                    <input type="button" value="载入" @click="PostLoadGame">
+                    <input type="button" value="返回菜单" @click="loadingWhat = 0">
+                </div>
+            </div>
+
         </div>
 
-        <div class="logs">
-            <p class="littleTitle">&nbsp;侦探日志&nbsp;</p>
-            <ul>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-                <li>ffff</li>
-            </ul>
+        <!-- main page -->
+        <div class="mainPage" v-show="page == 1">
+
+            <div class="title">
+                <h1>阿明侦探所</h1>
+                <p><span>存档码: </span><span>{{ uid }}</span><span style="font-size: 14px;">(一定要记录好，忘了存档码只能重来)</span></p>
+            </div>
+    
+            <div class="logs">
+                <p class="littleTitle">&nbsp;侦探日志&nbsp;</p>
+                <ul>
+                    <li v-for="(item, index) in dialogs">
+                        {{ item.talker }}:&nbsp;&nbsp;<span v-html="item.text"></span>
+                    </li>
+                </ul>
+            </div>
+    
+            <div class="controller">
+                <p class="littleTitle">&nbsp;行动指令&nbsp;</p>
+                <div>
+                    <input class="typeAct" type="text" v-model="key" placeholder="输入线索 或 想要了解的信息" alt="输入线索/想要了解的信息">
+                </div>
+                <div>
+                    <input class="subAct" type="button" value="执行" @click="PostAction">
+                </div>
+                <p class="actInfo">游戏说明</p>
+                <ol>
+                    <li>1. 线索存在于即刻App和游戏内的对话中</li>
+                    <li>2. 即刻的线索一般在：用户的头像、昵称、动态、签名中，需要认真去发现</li>
+                    <li>3. 在"行动指令"处输入有效的文字并点击"执行"，即可进行下一步。比如试着输入：阿明</li>
+                    <li>4. 通关后会获得"奖励码"，一定要保存好奖励码!!!<br>发送"你的即刻ID"和"奖励码"至邮箱chenwansal1@163.com，杰克有茶(作者)会联系你</li>
+                    <li><span>注: 非即友不可获得奖励，每位即友只能获得一次奖励，本活动最终解释权归 @杰克有茶 所有。通关后请不要剧透，那样会失去游戏的乐趣。</span></li>
+                </ol>
+            </div>
+
         </div>
 
-        <div class="controller">
-            <p class="littleTitle">&nbsp;行动指令&nbsp;</p>
-            <div>
-                <input class="typeAct" type="text" v-model="currentAction" placeholder="输入线索 或 想要了解的信息" alt="输入线索/想要了解的信息">
-            </div>
-            <div>
-                <input class="subAct" type="button" value="执行" @click="PostHelper">
-            </div>
-            <p class="actInfo">游戏说明</p>
-            <ol>
-                <li>1. 线索存在于即刻App和游戏内的对话中</li>
-                <li>2. 即刻的线索一般在：用户的头像、昵称、动态、签名中，需要认真去发现</li>
-                <li>3. 在"行动指令"处输入有效的文字并点击"执行"，即可进行下一步。比如试着输入：阿明</li>
-                <li>4. 通关后会获得"奖励码"，一定要保存好奖励码!!!<br>发送"你的即刻ID"和"奖励码"至邮箱chenwansal1@163.com，杰克有茶(作者)会联系你</li>
-                <li><span>注:非即友不可获得奖励，每位即友只能获得一次奖励，本活动最终解释权归 @杰克有茶 所有。通关后请不要剧透，那样会失去游戏的乐趣。</span></li>
-            </ol>
-        </div>
+        
         
     </div>
 

@@ -1,9 +1,20 @@
 class User {
 
-    constructor(uid) {
+    constructor(ip, uid) {
 
+        this.ip = ip;
         this.uid = uid;
         this.keys = [];
+        this.dialogs = [];
+
+    }
+
+    static LoadUser(user) {
+
+        let _n = new User(user.ip, user.uid);
+        _n.keys = user.keys;
+        _n.dialogs = user.dialogs;
+        return _n;
 
     }
 
@@ -20,3 +31,5 @@ class User {
     }
 
 }
+
+module.exports = User;

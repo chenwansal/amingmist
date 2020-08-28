@@ -1,13 +1,22 @@
+const pages = {
+    titlePage: 0,
+    mainPage: 1
+}
+
 var vm = new Vue({
 
     el: "#mist",
 
     data: {
 
+        page: pages.titlePage,
+        loadingWhat: 0,
+
         typeUid: "",
 
-        uid: "mistss",
-        currentAction: "",
+        uid: "",
+        key: "",
+        dialogs: [],
 
         isNewGame: false,
 
@@ -21,13 +30,25 @@ var vm = new Vue({
 
         PostNewGame() {
 
+            this.loadingWhat = 1
+
             let _data = {}
 
             // 发送
             axios.post('/newGame', _data)
                 .then((response) => {
                     if (response && response.data) {
-                        this.uid = response.data.uid
+                        if (response.data.result === false) {
+                            alert(response.data.msg);
+                        } else {
+                            let user = response.data.user;
+                            this.loadingWhat = 0;
+                            this.uid = user.uid;
+                            this.keys = user.keys;
+                            this.dialogs = user.dialogs;
+                            this.page = pages.mainPage;
+                            this.TransAllDialogs();
+                        }
                     }
                 })
                 .catch((error) => {
@@ -36,17 +57,43 @@ var vm = new Vue({
 
         },
 
+        TransAllDialogs() {
+
+            for (let i = 0; i < this.dialogs.length; i += 1) {
+
+                this.dialogs[i].text = this.dialogs[i].text.replace("[换行]", "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+
+            }
+
+        },
+
+        TransDialog() {
+
+        },
+
         PostLoadGame() {
 
+            this.loadingWhat = 1
+
             let _data = {
-                typeUid: this.typeUid
+                uid: this.typeUid
             }
 
             // 发送
             axios.post('/loadGame', _data)
                 .then((response) => {
                     if (response && response.data) {
-                        console.log(response.data);
+                        if (response.data.result === false) {
+                            alert(response.data.msg);
+                        } else {
+                            let user = response.data.user;
+                            this.loadingWhat = 0;
+                            this.uid = user.uid;
+                            this.keys = user.keys;
+                            this.dialogs = user.dialogs;
+                            this.page = pages.mainPage;
+                            this.TransAllDialogs();
+                        }
                     }
                 })
                 .catch((error) => {
@@ -55,10 +102,10 @@ var vm = new Vue({
 
         },
 
-        PostHelper() {
+        PostAction() {
 
             // 前端先验证
-            if (this.currentAction == "") {
+            if (this.key == "") {
                 alert("请输入线索 或 想了解的信息");
                 return;
             }
@@ -72,14 +119,23 @@ var vm = new Vue({
             // 数据
             let _data = {
                 uid: this.uid,
-                currentAction: this.currentAction
+                key: this.key
             }
 
             // 发送
             axios.post('/nextAction', _data)
                 .then((response) => {
                     if (response && response.data) {
-                        console.log(response.data);
+                        if (response.data.result === false) {
+                            alert(response.data.msg);
+                        } else {
+                            if (response.data.msg) {
+                                alert(response.data.msg);
+                            } else {
+                                this.dialogs.push(response.data.dialog);
+                                console.log(JSON.stringify(response.data.dialog));
+                            }
+                        }
                     }
                 })
                 .catch((error) => {

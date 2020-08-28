@@ -1,23 +1,41 @@
-let r1 = new Dialog("2020-07-12", "阿明探长", "");
-
-function CheckKey(key) {
-
-    if (key === "见") {
-        return r1;
-    }
-
-    return false;
-
-}
-
 class Dialog {
 
-    constructor(date, talker, text) {
+    constructor(requireKeys, date, talker, text) {
+        this.requireKeys = requireKeys;
         this.date = date;
         this.talker = talker;
         this.text = text;
     }
 
+    CompletedBeforeKey(user) {
+
+        let _keys = user.keys;
+
+        let _compareCount = 0;
+
+        for (let i = 0; i < _keys.length; i += 1) {
+
+            let _key = _keys[i];
+
+            if (this.requireKeys.includes(_key)) {
+
+                _compareCount += 1;
+
+            }
+
+        }
+
+        if (_compareCount == this.requireKeys.length) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+    }
+
 }
 
-module.exports = CheckKey;
+module.exports = Dialog;
