@@ -1,309 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <title>Jallow Pins</title>
+    <title>Jallow Mist</title>
     <meta
-      name="viewport"
-      content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"
+        name="viewport"
+        content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"
     />
-    <style type="text/css">
-      * {
-        margin: 0;
-      }
-      #main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 24px;
-        max-width: 500px;
-        margin: auto;
-      }
-      .form-item {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        font-size: 14px;
-        margin-bottom: 24px;
-      }
-      .form-item label {
-        margin-bottom: 8px;
-      }
-      canvas {
-        display: none;
-        margin-bottom: 15px;
-        border-radius: 150px;
-      }
-      .download-btn {
-        visibility: hidden;
-        border: 0;
-        background: none;
-      }
-      .divider {
-        white-space: nowrap;
-        visibility: hidden;
-      }
-      h3,
-      h4 {
-        font-weight: normal;
-        margin-bottom: 16px;
-      }
-      .icon-banners {
-        display: flex;
-        visibility: hidden;
-        height: 0;
-        overflow: hidden;
-        flex-direction: column;
-        margin-top: 24px;
-      }
-      .icon-banners h4 {
-        margin-bottom: 8px;
-      }
-      .icon-banner {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
-      .icon-banner img {
-        width: 23%;
-        height: 23%;
-        margin-right: 2%;
-        margin-bottom: 2%;
-      }
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="js/eui.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <style>
+        * { margin: 0; border-radius: 3px; color: rgb(28, 28, 28); }
+        li { list-style-type: none; font-size: 16px; margin-top: 5px; }
+        p { font-size: 18px;}
+        p.littleTitle { margin: 10px; position: absolute; z-index: 999; margin-top: -14px; background-color: #fff; border: 1px solid #333;}
+
+        div#mist { width: 100%; max-width: 640px; display: block; margin: 0 auto;}
+
+        div.title { width: 100%; text-align: center; margin: 20px 0; color: rgba(28,28,28,.8);}
+
+        div.logs { width: 100%; max-height: 400px; overflow-y: auto; margin: 10px 0; display: block; border: 1px solid #333;}
+        div.logs ul li:first-child { margin-top: 20px;}
+        div.logs ul li { margin-top: 5px;}
+        div.logs ul li:last-child { margin-bottom: 15px;}
+
+        div.controller { width: 100%; margin: 20px 0; display: block; border: 1px solid #333; }
+        div.controller input.typeAct { margin-top: 20px; width: 300px; padding: 5px; font-size: 16px; border-color: rgba(28, 28, 28, 0.2);}
+        div.controller input.subAct { margin-top: 10px; width: 100px; padding: 5px; background-color: #f8e71c; box-shadow: 0; border: 0; color: rgba(28,28,28,.85); font-size: 18px; font-weight: 900; cursor: pointer;}
+        div.controller input { margin: 10px auto; display: block;}
+        div.controller p.actInfo { margin: 20px auto 10px auto; width: 90%; padding: 10px 0px; font-size: 18px; font-weight: 900; text-align: center; border-top: 1px solid #ccc;}
+        div.controller ol { margin-bottom: 15px; }
+
     </style>
-  </head>
+</head>
 
-  <body>
-    <div id="main">
-      <canvas
-        id="jallowPinsCanvas"
-        width="900"
-        height="900"
-        style="width: 300px; height: 300px;"
-      ></canvas>
-      <div class="form-item">
-        <label for="avatar">🙌 请选择头像图片:</label>
-        <input type="file" id="avatar" name="avatar" accept="image/*" />
-      </div>
-      <div>
-        <button class="download-btn">💛 下载 Jallow Pins 头像 💛</button>
-      </div>
-      <div class="divider">----------------------------</div>
-      <div class="icon-banners">
-        <h4>请选择你的 Icon Pin 😆:</h4>
-        <h4>🧑‍🎨 Designer:</h4>
-        <div class="icon-banner">
-          <img src="icons/Designer/Adobe.png" />
-          <img src="icons/Designer/Ae.png" />
-          <img src="icons/Designer/ai.png" />
-          <img src="icons/Designer/Pr.png" />
+<body>
+
+    <div id="mist">
+
+        <div class="title">
+            <h1>阿明侦探所</h1>
+            <p><span>存档码: </span><span>{{ uid }}</span></p>
         </div>
-        <h4>🧑‍💻 Front end:</h4>
-        <div class="icon-banner">
-          <img src="icons/FroneEnd/html.png" />
-          <img src="icons/FroneEnd/react.png" />
-          <img src="icons/FroneEnd/vue.png" />
+
+        <div class="logs">
+            <p class="littleTitle">&nbsp;侦探日志&nbsp;</p>
+            <ul>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+                <li>ffff</li>
+            </ul>
         </div>
-        <h4>🧑‍💻 Back end:</h4>
-        <div class="icon-banner">
-          <img src="icons/backEnd/go_gopher.png" />
-          <img src="icons/backEnd/haskell.png" />
-          <img src="icons/backEnd/java.png" />
-          <img src="icons/backEnd/php.png" />
-          <img src="icons/backEnd/python.png" />
-          <img src="icons/backEnd/r.png" />
-          <img src="icons/backEnd/ruby.png" />
-          <img src="icons/backEnd/rust.png" />
+
+        <div class="controller">
+            <p class="littleTitle">&nbsp;行动指令&nbsp;</p>
+            <div>
+                <input class="typeAct" type="text" placeholder="输入线索 或 想要了解的信息" alt="输入线索/想要了解的信息">
+            </div>
+            <div>
+                <input class="subAct" type="button" value="执行">
+            </div>
+            <p class="actInfo">游戏说明</p>
+            <ol>
+                <li>1. 线索存在于即刻App和游戏内的对话中</li>
+                <li>2. 即刻的线索一般在：用户的头像、昵称、动态、签名中，需要认真去发现</li>
+                <li>3. 在"行动指令"处输入有效的文字并点击"执行"，即可进行下一步。比如试着输入：阿明</li>
+                <li>4. 通关后会获得"奖励码"，发送"你的即刻ID"和"奖励码"至邮箱chenwansal1@163.com，杰克有茶会联系你</li>
+                <li>注:不要尝试进行Hack操作，因为我会在服务端检测存档的游戏过程</li>
+            </ol>
         </div>
-        <h4>🧑‍💼 Office:</h4>
-        <div class="icon-banner">
-          <img src="icons/office/excel.png" />
-          <img src="icons/office/powerpoint.png" />
-          <img src="icons/office/word.png" />
-        </div>
-        <h4>🙋 Other:</h4>
-        <div class="icon-banner">
-          <img src="icons/other/c4d.jpg" />
-          <img src="icons/other/unity.png" />
-        </div>
-        <h4>📲 Phone:</h4>
-        <div class="icon-banner">
-          <img src="icons/phone/android.png" />
-          <img src="icons/phone/applescript.png" />
-          <img src="icons/phone/swift.png" />
-        </div>
-      </div>
+        
     </div>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
-    <script>
-      var canvasSize = 300;
-      var iconSize = 60;
-      var canvas = document.getElementById("jallowPinsCanvas");
-      var ctx = canvas.getContext("2d");
-      var pixelRatio = getPixelRatio(ctx);
-      canvas.width = canvasSize * pixelRatio;
-      canvas.height = canvasSize * pixelRatio;
-      function drawAvatar(imgSrc) {
-        // 新建 Image 对象
-        var img = new Image();
-        // 设置 Image src
-        img.src = imgSrc;
-        // Image 加载完毕后画到 canvas 上
-        img.onload = () => {
-          // 由于 mobile Orientation 导致的旋转问题。
-          window.EXIF.getData(img, function () {
-            const orientation = EXIF.getTag(this, "Orientation");
-            switch (orientation) {
-              case 3:
-                ctx.rotate(Math.PI);
-                ctx.drawImage(
-                  img,
-                  -canvasSize * pixelRatio,
-                  -canvasSize * pixelRatio,
-                  canvasSize * pixelRatio,
-                  canvasSize * pixelRatio
-                );
-                ctx.rotate(-Math.PI);
-                break;
-              case 6:
-                ctx.rotate(0.5 * Math.PI);
-                ctx.drawImage(
-                  img,
-                  0,
-                  -canvasSize * pixelRatio,
-                  canvasSize * pixelRatio,
-                  canvasSize * pixelRatio
-                );
-                ctx.rotate(-0.5 * Math.PI);
-                break;
-              case 8:
-                ctx.rotate((3 * Math.PI) / 2);
-                ctx.drawImage(
-                  img,
-                  -canvasSize * pixelRatio,
-                  0,
-                  canvasSize * pixelRatio,
-                  canvasSize * pixelRatio
-                );
-                // 必须旋转回来！
-                ctx.rotate(-(3 * Math.PI) / 2);
-                break;
-              default:
-                ctx.drawImage(
-                  img,
-                  0,
-                  0,
-                  canvasSize * pixelRatio,
-                  canvasSize * pixelRatio
-                );
-                break;
-            }
-          });
-          changeCanvasVisible(true);
-          changeIconBannerVisible(true);
-          changeDownloadBtnVisible(true);
-        };
-      }
-      function drawIconBorder() {
-        ctx.beginPath();
-        ctx.arc(
-          canvasSize * pixelRatio * 0.675 + (iconSize * pixelRatio) / 2,
-          canvasSize * pixelRatio * 0.675 + (iconSize * pixelRatio) / 2,
-          (iconSize * pixelRatio) / 2 + 5,
-          0,
-          2 * Math.PI,
-          false
-        );
-        ctx.lineWidth = 10;
-        ctx.strokeStyle = "#fff";
-        ctx.stroke();
-      }
-      function drawIcon(imgSrc) {
-        // 新建 Image 对象
-        var img = new Image();
-        // 设置 Image src
-        img.src = imgSrc;
-        // Image 加载完毕后画到 canvas 上
-        img.onload = () => {
-          drawIconBorder();
-          ctx.drawImage(
-            img,
-            canvasSize * pixelRatio * 0.675,
-            canvasSize * pixelRatio * 0.675,
-            iconSize * pixelRatio,
-            iconSize * pixelRatio
-          );
-        };
-      }
-      function changeCanvasVisible(visible) {
-        canvas.style.display = visible ? "block" : "none";
-      }
-      function changeIconBannerVisible(visible) {
-        $(".divider").css("visibility", visible ? "visible" : "hidden");
-        $(".icon-banners").css("visibility", visible ? "visible" : "hidden");
-        $(".icon-banners").css("height", visible ? "auto" : "0");
-      }
-      function changeDownloadBtnVisible(visible) {
-        $(".download-btn").css("visibility", visible ? "visible" : "hidden");
-      }
-      function inputChangeListener() {
-        $("#avatar").change(function (e) {
-          var file = e.target.files[0];
-          var reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onloadend = function (e) {
-            drawAvatar(e.target.result);
-          };
-        });
-      }
-      function imgClickListener() {
-        $(".icon-banners").click(function (e) {
-          if (e.target.nodeName === "IMG") {
-            drawIcon(e.target.src, pixelRatio);
-          }
-        });
-      }
-      function getPixelRatio(context) {
-        var backingStore =
-          context.backingStorePixelRatio ||
-          context.webkitBackingStorePixelRatio ||
-          context.mozBackingStorePixelRatio ||
-          context.msBackingStorePixelRatio ||
-          context.oBackingStorePixelRatio ||
-          context.backingStorePixelRatio ||
-          1;
-        return (window.devicePixelRatio || 1) / backingStore;
-      }
-      function downloadCanvasImg() {
-        var MIME_TYPE = "image/png";
-        var imgURL = canvas.toDataURL(MIME_TYPE);
-        var dlLink = document.createElement("a");
-        dlLink.download = "JallowPinsAvatar";
-        dlLink.href = imgURL;
-        dlLink.dataset.downloadurl = [
-          MIME_TYPE,
-          dlLink.download,
-          dlLink.href,
-        ].join(":");
 
-        document.body.appendChild(dlLink);
-        dlLink.click();
-        document.body.removeChild(dlLink);
-      }
-      function downloadBtnListener() {
-        $(".download-btn").click(downloadCanvasImg);
-      }
-      /* ～～～～～ main ～～～～～ */
-      $(document).ready(function () {
-        console.log("(｡･ω･｡)ﾉ💛～ document ready");
-        inputChangeListener();
-        imgClickListener();
-        downloadBtnListener();
-      });
-    </script>
-  </body>
+    <script src="js/mist.js"></script>
+
+</body>
+
 </html>
