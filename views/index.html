@@ -32,11 +32,11 @@
         div.logs { width: 100%; height: 340px; overflow-y: auto; margin: 10px 0; display: block; border: 1px solid #333;}
         ul, ol { margin-left: -1em;}
         div.logs ul li:first-child { margin-top: 20px;}
-        li { margin-top: 5px; line-height: 1.6em;}
-        div.logs ul li:last-child { margin-bottom: 15px;}
+        li { margin-top: 5px; line-height: 1.6em; width: 95%;}
+        div.logs ul li:last-child { margin-bottom: 15px; }
 
         div.controller { width: 100%; margin: 20px 0; display: block; border: 1px solid #333; }
-        div.controller input.typeAct { margin-top: 20px; width: 300px; }
+        div.controller input.typeAct { margin-top: 40px; width: 240px; }
         input[type='text'] { margin: 10px auto; padding: 5px; font-size: 16px; border-color: rgba(28, 28, 28, 0.2); }
         input[type='button'] { margin: 10px auto; width: 100px; padding: 5px; background-color: #f8e71c; box-shadow: 0; border: 0; color: rgba(28,28,28,.85); font-size: 18px; font-weight: 900; cursor: pointer;}
         div.controller input { margin: 10px auto; display: block;}
@@ -80,7 +80,7 @@
 
             <div class="title">
                 <h1>阿明侦探所</h1>
-                <p><span>存档码: </span><span>{{ uid }}</span><span style="font-size: 14px;">(一定要记录好，忘了存档码只能重来)</span></p>
+                <p><span>存档码: </span><span>{{ uid }}</span><span style="font-size: 14px;">(忘了存档码只能重来)</span></p>
             </div>
     
             <div class="logs">
