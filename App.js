@@ -202,6 +202,8 @@ function LoadAllData() {
 
         let _uid = _filenames[i];
 
+        if (_uid == "keepgitemptydir") continue;
+
         let _user = fs.readFileSync(__dirname + "/data/" + _uid, { encoding: "utf-8"});
         _user = JSON.parse(_user);
         _user = User.LoadUser(_user);
