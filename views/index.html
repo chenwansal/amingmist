@@ -13,6 +13,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script src="js/eui.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <style>
         * { margin: 0; border-radius: 3px; color: rgb(28, 28, 28); }
         li { list-style-type: none; font-size: 16px; margin-top: 5px; }
@@ -34,6 +36,7 @@
         div.controller input { margin: 10px auto; display: block;}
         div.controller p.actInfo { margin: 20px auto 10px auto; width: 90%; padding: 10px 0px; font-size: 18px; font-weight: 900; text-align: center; border-top: 1px solid #ccc;}
         div.controller ol { margin-bottom: 15px; }
+        div.controller ol li span { margin-top: 10px; color: rgba(28, 28, 28, 0.5);}
 
     </style>
 </head>
@@ -44,7 +47,7 @@
 
         <div class="title">
             <h1>阿明侦探所</h1>
-            <p><span>存档码: </span><span>{{ uid }}</span></p>
+            <p><span>存档码: </span><span>{{ uid }}</span><span>(截图分享游戏时请遮好存档码)</span></p>
         </div>
 
         <div class="logs">
@@ -82,18 +85,18 @@
         <div class="controller">
             <p class="littleTitle">&nbsp;行动指令&nbsp;</p>
             <div>
-                <input class="typeAct" type="text" placeholder="输入线索 或 想要了解的信息" alt="输入线索/想要了解的信息">
+                <input class="typeAct" type="text" v-model="currentAction" placeholder="输入线索 或 想要了解的信息" alt="输入线索/想要了解的信息">
             </div>
             <div>
-                <input class="subAct" type="button" value="执行">
+                <input class="subAct" type="button" value="执行" @click="PostHelper">
             </div>
             <p class="actInfo">游戏说明</p>
             <ol>
                 <li>1. 线索存在于即刻App和游戏内的对话中</li>
                 <li>2. 即刻的线索一般在：用户的头像、昵称、动态、签名中，需要认真去发现</li>
                 <li>3. 在"行动指令"处输入有效的文字并点击"执行"，即可进行下一步。比如试着输入：阿明</li>
-                <li>4. 通关后会获得"奖励码"，发送"你的即刻ID"和"奖励码"至邮箱chenwansal1@163.com，杰克有茶会联系你</li>
-                <li>注:不要尝试进行Hack操作，因为我会在服务端检测存档的游戏过程</li>
+                <li>4. 通关后会获得"奖励码"，一定要保存好奖励码!!!<br>发送"你的即刻ID"和"奖励码"至邮箱chenwansal1@163.com，杰克有茶(作者)会联系你</li>
+                <li><span>注:非即友不可获得奖励，每位即友只能获得一次奖励，本活动最终解释权归 @杰克有茶 所有。通关后请不要剧透，那样会失去游戏的乐趣。</span></li>
             </ol>
         </div>
         
