@@ -6,10 +6,10 @@ const fs = require("fs");
 var upload = multer();
 var app = express();
 
-var uidMaker = require("./UidMaker");
-var fileHelper = require("./fileHelper");
-var User = require("./models/user");
-var KeyToDialog = require("./KeyToDialog");
+var uidMaker = require("./UidMaker.js");
+var fileHelper = require("./fileHelper.js");
+var User = require("./models/user.js");
+var KeyToDialog = require("./KeyToDialog.js");
 
 let users = {};
 

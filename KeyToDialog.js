@@ -1,4 +1,4 @@
-let Dialog = require("../models/dialog");
+let Dialog = require("./models/dialog.js");
 
 let r000 = new Dialog([], "2020-08-28", "阿明", "新来的，今天有个案子要交给你，听好咯。[换行]本地富豪宋老板早上委托我们寻找他的千金阿丽。");
 let r001 = new Dialog([], "2020-08-28", "[内心独白]", "阿明是阿明侦探所的老板，也是我的老板，前辈们都说他获取情报的能力非常强，天生就是干这行的料。");
