@@ -6,10 +6,10 @@ const fs = require("fs");
 var upload = multer();
 var app = express();
 
-var uidMaker = require("./lib/uidMaker");
-var fileHelper = require("./lib/fileHelper");
+var uidMaker = require("./UidMaker");
+var fileHelper = require("./fileHelper");
 var User = require("./models/user");
-var KeyToDialog = require("./lib/keyToDialog");
+var KeyToDialog = require("./KeyToDialog");
 
 let users = {};
 
@@ -196,13 +196,13 @@ function LoadAllData() {
 
     users = {};
 
-    let _filenames = fs.readdirSync(__dirname + "/lib/data/", { encoding: "utf-8" });
+    let _filenames = fs.readdirSync(__dirname + "/data/", { encoding: "utf-8" });
 
     for (let i = 0; i < _filenames.length; i += 1) {
 
         let _uid = _filenames[i];
 
-        let _user = fs.readFileSync(__dirname + "/lib/data/" + _uid, { encoding: "utf-8"});
+        let _user = fs.readFileSync(__dirname + "/data/" + _uid, { encoding: "utf-8"});
         _user = JSON.parse(_user);
         _user = User.LoadUser(_user);
 
