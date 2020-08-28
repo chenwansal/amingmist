@@ -61,7 +61,7 @@ var vm = new Vue({
 
             for (let i = 0; i < this.dialogs.length; i += 1) {
 
-                this.dialogs[i].text = this.dialogs[i].text.replace("[换行]", "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                this.dialogs[i].text = this.dialogs[i].text.replace("[换行]", "<br>");
 
             }
 
