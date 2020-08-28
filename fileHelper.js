@@ -1,5 +1,5 @@
 let fs = require("fs");
-let User = require("../models/user");
+let User = require("models/user");
 
 function SaveData(user, cb) {
 

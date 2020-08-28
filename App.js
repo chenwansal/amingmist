@@ -8,7 +8,7 @@ var app = express();
 
 var uidMaker = require("./UidMaker");
 var fileHelper = require("./fileHelper");
-var User = require("./models/user");
+var User = require("models/user");
 var KeyToDialog = require("./KeyToDialog");
 
 let users = {};
