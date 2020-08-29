@@ -20,6 +20,8 @@ var vm = new Vue({
 
         isNewGame: false,
 
+        logElement: {}
+
     },
 
     created() {
@@ -47,7 +49,8 @@ var vm = new Vue({
                             this.keys = user.keys;
                             this.dialogs = user.dialogs;
                             this.page = pages.mainPage;
-                            this.TransAllDialogs();
+                            this.logElement = document.getElementById("logScroll");
+                            this.logElement.scrollTop = this.logElement.scrollHeight;
                         }
                     }
                 })
@@ -61,7 +64,7 @@ var vm = new Vue({
 
             for (let i = 0; i < this.dialogs.length; i += 1) {
 
-                this.dialogs[i].text = this.dialogs[i].text.replace("[换行]", "<br>");
+                this.dialogs[i].text = this.dialogs[i].text.replace(/\[换行\]/g, "<br>");
 
             }
 
@@ -92,7 +95,9 @@ var vm = new Vue({
                             this.keys = user.keys;
                             this.dialogs = user.dialogs;
                             this.page = pages.mainPage;
-                            this.TransAllDialogs();
+                            // this.TransAllDialogs();
+                            this.logElement = document.getElementById("logScroll");
+                            this.logElement.scrollTop = this.logElement.scrollHeight;
                         }
                     }
                 })
@@ -133,7 +138,10 @@ var vm = new Vue({
                                 alert(response.data.msg);
                             } else {
                                 this.dialogs.push(response.data.dialog);
-                                console.log(JSON.stringify(response.data.dialog));
+                                this.logElement = document.getElementById("logScroll");
+                                setTimeout(() => {
+                                    this.logElement.scrollTo(0, this.logElement.scrollHeight);
+                                }, 50)
                             }
                         }
                     }

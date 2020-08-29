@@ -38,8 +38,8 @@ app.post("/newGame", function(req, res) {
         let _newUid = diffUid;
 
         let _user = new User(req.ip, _newUid);
-        _user.AddKeys("游戏正式开始");
-        let _dialog = KeyToDialog(_user, "游戏正式开始");
+        _user.AddKeys("开始");
+        let _dialog = KeyToDialog(_user, "开始");
         _user.dialogs.push(_dialog);
 
         // 建档
